@@ -99,6 +99,24 @@ export const EXAM_TRAPS: ExamTrap[] = [
     goldenRule: 'BigQuery ML is designed for structured SQL data and tabular ML models. Vertex AI Studio / Generative AI is primarily for unstructured text, code, audio, and multimodal data.',
     category: 'offerings',
   },
+  {
+    id: 'trap-11',
+    trapTitle: 'The "Agent Tool Taxonomy" Trap (Extensions vs Functions vs Data Stores vs Plugins)',
+    scenario: 'A cloud developer needs to connect a Vertex AI agent to a third-party logistics REST API and query internal corporate PDF policies. Which tools should be configured?',
+    wrongIntuition: 'Using "Plugins" for everything or assuming "Functions" connects to external web APIs.',
+    correctAnswer: 'Extensions for the external REST API, and Data Stores for the internal PDF knowledge base.',
+    goldenRule: 'Google Cloud Agent Tool Taxonomy: Extensions = External REST APIs; Functions = Client-side actions/tasks; Data Stores = Factual knowledge bases/documents; Plugins = Modular capability bundles.',
+    category: 'offerings',
+  },
+  {
+    id: 'trap-12',
+    trapTitle: 'The "Discrete Stages of RAG" Trap',
+    scenario: 'A scenario describes "taking retrieved factual passages from a corporate knowledge base and injecting them into the user prompt context window". Which stage of RAG is this?',
+    wrongIntuition: 'Calling it "Retrieval" or "Generation".',
+    correctAnswer: 'Augmentation.',
+    goldenRule: 'Memorize the 3 RAG stages: 1. Retrieval (finding & fetching documents), 2. Augmentation (injecting retrieved context into prompt), 3. Generation (LLM synthesizing final natural language answer).',
+    category: 'techniques',
+  },
 ];
 
 export interface ModelComparison {

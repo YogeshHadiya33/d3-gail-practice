@@ -53,6 +53,11 @@ export const REVISION_CHEAT_SHEET: CheatSheetSection[] = [
             boldTerm: 'Reinforcement Learning from Human Feedback (RLHF)',
             quickFact: 'Fine-tunes foundation models using human reward rankings to align outputs with human values, safety guidelines, and helpfulness.',
           },
+          {
+            boldTerm: 'The 5 Core Layers of the Gen AI Landscape',
+            quickFact: '1. Infrastructure (TPUs/GPUs/Datacenters) -> 2. Models (Gemini/Gemma/Imagen/Veo) -> 3. Platforms (Vertex AI/Google AI Studio) -> 4. Agents (Agent Builder/CCAI) -> 5. Applications (Workspace/NotebookLM).',
+            examTip: 'Exam Strategy: Align any described business need directly to its corresponding architectural layer.',
+          },
         ],
       },
       {
@@ -206,6 +211,15 @@ export const REVISION_CHEAT_SHEET: CheatSheetSection[] = [
             quickFact: 'Listens to live customer phone calls in real time to suggest answers, surface knowledge articles, and auto-generate post-call summaries for HUMAN agents.',
             examTip: 'Exam keyword: Agent Assist assists human call agents; Conversational Agents talk directly to customers.',
           },
+          {
+            boldTerm: 'The 4 Agent Tool Types',
+            quickFact: '1. Extensions (connect to external REST APIs), 2. Functions (define client-side executable tasks/actions), 3. Data Stores (access enterprise knowledge bases/docs), 4. Plugins (bundle modular skills/integrations).',
+            examTip: 'Exam Memory Rule: Extensions = APIs; Functions = Actions/Tasks; Data Stores = Info/Knowledge; Plugins = Modular Skills.',
+          },
+          {
+            boldTerm: 'Hybrid CX Agent Architecture',
+            quickFact: 'Combines deterministic rule engines (for strict compliance, transactions, and identity verification) with generative AI (for fluid, empathetic conversation).',
+          },
         ],
       },
       {
@@ -288,8 +302,13 @@ export const REVISION_CHEAT_SHEET: CheatSheetSection[] = [
           },
           {
             boldTerm: 'Retrieval-Augmented Generation (RAG)',
-            quickFact: 'The standard 4-step pipeline: 1) Ingest & Chunk documents, 2) Store vectors, 3) Retrieve matching chunks, 4) Generate grounded response.',
-            examTip: 'Golden Rule: RAG modifies the prompt context in RAM; it does NOT alter the underlying neural weights of the foundation model.',
+            quickFact: 'The standard architectural pattern: RAG modifies the prompt context in RAM; it does NOT alter the underlying neural weights of the foundation model.',
+            examTip: 'Golden Rule: RAG modifies prompt context; it never alters base model weights.',
+          },
+          {
+            boldTerm: 'The 3 Discrete Stages of RAG',
+            quickFact: '1. Retrieval (fetching relevant document chunks from knowledge bases based on user query) -> 2. Augmentation (adding retrieved context into the prompt) -> 3. Generation (synthesizing natural language grounded response).',
+            examTip: 'Exam question: Memorize these 3 specific verbs and their order: Retrieval -> Augmentation -> Generation.',
           },
           {
             boldTerm: 'Citations & Auditability',
@@ -408,11 +427,21 @@ export const REVISION_CHEAT_SHEET: CheatSheetSection[] = [
             boldTerm: 'Model Cards & Explainable AI',
             quickFact: 'Standardized documentation summarizing model capabilities, limitations, evaluation benchmarks, and feature attribution explanations.',
           },
+          {
+            boldTerm: 'Data Anonymization vs Pseudonymization',
+            quickFact: 'Anonymization irreversibly eliminates PII so re-identification is impossible. Pseudonymization substitutes private keys with tokens, allowing authorized re-identification only with segregated secret keys.',
+            examTip: 'Use Sensitive Data Protection (Cloud DLP) to discover, mask, and tokenize confidential enterprise records before feeding prompts into models.',
+          },
         ],
       },
       {
         categoryTitle: 'Adoption Strategy & Unit Economics',
         bulletPoints: [
+          {
+            boldTerm: 'Hybrid Adoption Model',
+            quickFact: 'Combine a top-down strategic vision from executive leadership (governance, ethics, resources) with bottom-up input from frontline teams and mid-level managers.',
+            examTip: 'Exam question: Mid-level managers are critical because their daily proximity to operational workflows enables them to spot authentic friction points and high-impact solutions.',
+          },
           {
             boldTerm: 'Value vs Feasibility Matrix',
             quickFact: 'Prioritize Quick Wins (high value, high feasibility) first (e.g. customer FAQ bots, meeting summaries) to prove early ROI.',

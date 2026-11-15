@@ -9,6 +9,10 @@ import {
   ExternalLink,
   Edit3,
   Save,
+  Headphones,
+  FileText,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 
 interface NotebookStudyProps {
@@ -24,6 +28,7 @@ export const NotebookStudy: React.FC<NotebookStudyProps> = ({
   const [viewMode, setViewMode] = useState<'notes' | 'officialQA'>('notes');
   const [editingNote, setEditingNote] = useState<boolean>(false);
   const [noteText, setNoteText] = useState<string>('');
+  const [showAudioEmbed, setShowAudioEmbed] = useState<boolean>(false);
 
   const activeModule = COMPREHENSIVE_STUDY_MODULES.find((m) => m.id === selectedModuleId) || COMPREHENSIVE_STUDY_MODULES[0];
   const isMastered = progress.masteredTopicIds.includes(activeModule.id);
@@ -127,6 +132,7 @@ export const NotebookStudy: React.FC<NotebookStudyProps> = ({
                     onClick={() => {
                       setSelectedModuleId(mod.id);
                       setEditingNote(false);
+                      setShowAudioEmbed(false);
                     }}
                     className={`w-full text-left p-3 rounded-lg border-2 transition-all cursor-pointer ${
                       isSelected
@@ -161,11 +167,11 @@ export const NotebookStudy: React.FC<NotebookStudyProps> = ({
                       </div>
 
                       <h4
-                        className={`font-sans text-xs sm:text-sm font-semibold mt-0.5 truncate ${
-                          isSelected ? 'text-white' : 'text-zinc-900'
+                        className={`font-sans text-xs sm:text-sm font-bold mt-0.5 truncate ${
+                          isSelected ? 'text-white' : 'text-zinc-950'
                         }`}
                       >
-                        {mod.courseTitle.replace(/^Course \d:\s*/, '')}
+                        {mod.courseTitle.replace(/^(Course|Module) \d:\s*/, '')}
                       </h4>
 
                       <span
@@ -211,7 +217,7 @@ export const NotebookStudy: React.FC<NotebookStudyProps> = ({
                     </span>
                   </div>
 
-                  <h2 className="text-xl sm:text-2xl font-bold font-sans text-zinc-900 mt-2">
+                  <h2 className="text-xl sm:text-2xl font-black font-sans text-zinc-950 mt-2">
                     {activeModule.courseTitle}
                   </h2>
                 </div>
@@ -233,6 +239,82 @@ export const NotebookStudy: React.FC<NotebookStudyProps> = ({
               <div className="p-4 rounded-lg bg-zinc-50 border-2 border-zinc-900 border-l-4 border-l-blue-600 text-sm sm:text-base text-zinc-800 leading-relaxed font-sans shadow-[2px_2px_0px_#18181B]">
                 <strong className="text-zinc-950 font-bold">Executive Summary:</strong> {activeModule.moduleOverview}
               </div>
+
+              {/* Official Course Audio Podcast & Slide Deck Hub */}
+              {(activeModule.audioDriveUrl || activeModule.slideDeckUrl) && (
+                <div className="p-3 sm:p-3.5 rounded-xl bg-white border-2 border-zinc-900 shadow-[2px_2px_0px_#18181B] space-y-2.5">
+                  {/* 2 High-Contrast Direct Drive Link Buttons */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {activeModule.audioDriveUrl && (
+                      <a
+                        href={activeModule.audioDriveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ backgroundColor: '#047857', color: '#FFFFFF' }}
+                        className="w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm border-2 border-zinc-900 shadow-[2px_2px_0px_#18181B] hover:opacity-95 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2.5 text-white font-bold">
+                          <span className="w-7 h-7 rounded bg-emerald-950/50 border border-emerald-300 flex items-center justify-center shrink-0">
+                            <Headphones className="w-4 h-4 text-white" />
+                          </span>
+                          <span className="text-white font-bold tracking-tight">Listen to Podcast (Drive)</span>
+                        </span>
+                        <ExternalLink className="w-4 h-4 text-white shrink-0 ml-2" />
+                      </a>
+                    )}
+
+                    {activeModule.slideDeckUrl && (
+                      <a
+                        href={activeModule.slideDeckUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ backgroundColor: '#1D4ED8', color: '#FFFFFF' }}
+                        className="w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-bold text-xs sm:text-sm border-2 border-zinc-900 shadow-[2px_2px_0px_#18181B] hover:opacity-95 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2.5 text-white font-bold">
+                          <span className="w-7 h-7 rounded bg-blue-950/50 border border-blue-300 flex items-center justify-center shrink-0">
+                            <FileText className="w-4 h-4 text-white" />
+                          </span>
+                          <span className="text-white font-bold tracking-tight">View Slide Deck (PDF)</span>
+                        </span>
+                        <ExternalLink className="w-4 h-4 text-white shrink-0 ml-2" />
+                      </a>
+                    )}
+                  </div>
+
+                  {/* Collapsible Embedded Audio Preview */}
+                  {activeModule.audioEmbedUrl && (
+                    <div>
+                      <button
+                        onClick={() => setShowAudioEmbed((prev) => !prev)}
+                        className="w-full flex items-center justify-between px-3.5 py-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border-2 border-zinc-900 text-xs font-['Courier_Prime'] font-bold transition-colors cursor-pointer"
+                      >
+                        <span className="flex items-center gap-2 text-zinc-900 font-bold">
+                          <span className="text-sm">🎙️</span>
+                          <span>{showAudioEmbed ? 'Hide Embedded Audio Player' : 'Embedded Audio Player (Optional)'}</span>
+                        </span>
+                        {showAudioEmbed ? (
+                          <ChevronUp className="w-4 h-4 text-zinc-900 shrink-0" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-zinc-900 shrink-0" />
+                        )}
+                      </button>
+
+                      {showAudioEmbed && (
+                        <div className="mt-2.5 rounded-xl overflow-hidden border-2 border-zinc-900 bg-zinc-950 p-1">
+                          <iframe
+                            src={activeModule.audioEmbedUrl}
+                            title={`${activeModule.courseTitle} Audio Preview`}
+                            className="w-full h-[160px] border-0 rounded-lg bg-zinc-900"
+                            allow="autoplay"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Point-wise Subtopics */}
               <div className="space-y-6">
@@ -309,6 +391,47 @@ export const NotebookStudy: React.FC<NotebookStudyProps> = ({
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Official Google Training Resources & Further Review */}
+              {(activeModule.slideDeckUrl || activeModule.audioDriveUrl) && (
+                <div className="p-4 rounded-xl bg-amber-50/70 border-2 border-zinc-900 space-y-2.5 shadow-[2px_2px_0px_#18181B]">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">📚</span>
+                    <span className="font-['Silkscreen'] text-[10px] font-bold uppercase text-amber-950">
+                      OFFICIAL GOOGLE TRAINING RESOURCES & FURTHER REVIEW
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-700 font-sans leading-relaxed">
+                    Review the authentic Google Instructor-Led Training (ILT) presentation slides and listen to the NotebookLM conversational podcast deep dive for full multi-sensory preparation:
+                  </p>
+                  <div className="flex flex-wrap gap-2.5 pt-1">
+                    {activeModule.slideDeckUrl && (
+                      <a
+                        href={activeModule.slideDeckUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="retro-btn px-3 py-2 text-xs font-['Courier_Prime'] font-bold bg-white text-blue-800 border-2 border-zinc-900 hover:bg-blue-50 inline-flex items-center gap-2"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-blue-600" />
+                        <span>📑 View / Download Official Slide Deck (PDF)</span>
+                        <ExternalLink className="w-3.5 h-3.5 text-blue-600" />
+                      </a>
+                    )}
+                    {activeModule.audioDriveUrl && (
+                      <a
+                        href={activeModule.audioDriveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="retro-btn px-3 py-2 text-xs font-['Courier_Prime'] font-bold bg-white text-zinc-900 border-2 border-zinc-900 hover:bg-zinc-50 inline-flex items-center gap-2"
+                      >
+                        <Headphones className="w-3.5 h-3.5 text-zinc-700" />
+                        <span>🎧 Open Full Podcast Audio in Google Drive</span>
+                        <ExternalLink className="w-3.5 h-3.5 text-zinc-500" />
+                      </a>
+                    )}
                   </div>
                 </div>
               )}
